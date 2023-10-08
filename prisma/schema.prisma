@@ -57,7 +57,7 @@ model User {
     password      String?
     image         String?
     description   String?
-    posts         Post[]
+    post          Posts[]
     accounts      Account[]
     sessions      Session[]
 }
