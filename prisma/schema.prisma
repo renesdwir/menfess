@@ -57,11 +57,15 @@ model User {
     password      String?
     image         String?
     description   String?
-    post          Posts[]
+    posts         Post[]
     accounts      Account[]
     sessions      Session[]
 }
-
+model Post {
+    id            String    @id @default(cuid())
+    userId       String
+    user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
 model VerificationToken {
     identifier String
     token      String   @unique
