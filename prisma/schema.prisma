@@ -63,10 +63,14 @@ model User {
 }
 
 model Post {
-  id      String @id @default(cuid())
-  userId  String
-  content String
-  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id        Int       @id @default(autoincrement())
+  content   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  author    User      @relation("userPosts", fields: [authorId], references: [id])
+  authorId  Int
+  comments  Comment[] @relation("postComments")
+  likes     Like[]    @relation("postLikes")
 }
 
 model VerificationToken {
