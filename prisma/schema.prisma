@@ -64,26 +64,47 @@ model User {
   updatedAt  DateTime @updatedAt
 }
 
+
 model Post {
-  id        Int       @id @default(autoincrement())
-  content   String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  author    User      @relation("userPosts", fields: [authorId], references: [id])
-  authorId  Int
-  comments  Comment[] @relation("postComments")
-  likes     Like[]    @relation("postLikes")
-}
-model Comment {
-  id        Int      @id @default(autoincrement())
-  content   String
+  id String @id @default(uuid())
+  content String @db.VarChar(255)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  author    User     @relation("userComments", fields: [authorId], references: [id])
-  authorId  Int
-  post      Post     @relation("postComments", fields: [postId], references: [id])
-  postId    Int
-  likes     Like[]   @relation("commentLikes")
+
+  author         User?      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId      String?
+  anonymous    Boolean
+
+  reports      Report[]
+  likes        Likes[]
+  comments     comment[]
+  notification notification[]
+}
+
+
+model Report {
+  reason String
+
+  post    Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String
+
+  author User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String
+  @@id([postId, authorId])
+}
+model Comment {
+  id   Int    @id @default(autoincrement())
+  text String
+
+  post    post   @relation(fields: [post_id], references: [id], onDelete: Cascade)
+  post_id String
+
+  user    user   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
 
 model Like {
