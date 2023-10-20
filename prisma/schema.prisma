@@ -60,6 +60,8 @@ model User {
   posts       Post[]
   accounts    Account[]
   sessions    Session[]
+  createdAt   DateTime  @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Post {
