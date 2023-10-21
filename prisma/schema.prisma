@@ -65,22 +65,23 @@ model User {
 }
 
 
+
 model Post {
-  id String @id @default(uuid())
+  id      String @id @default(uuid())
   content String @db.VarChar(255)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  author         User?      @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  authorId      String?
-  anonymous    Boolean
+  author    User?   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId  String?
+  anonymous Boolean
 
-  reports      Report[]
-  likes        Likes[]
-  comments     comment[]
-  notification notification[]
+  reports  Report[]
+  likes    Like[]
+  comments Comment[]
 }
+
 
 model Like {
   createdAt DateTime @default(now())
